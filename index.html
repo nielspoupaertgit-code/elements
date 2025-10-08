@@ -2,22 +2,57 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>LaserCat Stress Test</title>
+  <title>∞ LaserCat Arena ∞</title>
   <style>
-    body { font-family: Arial, sans-serif; display:flex; flex-wrap:wrap; gap:8px; padding:18px; }
-    .card { width:200px; height:120px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.12);
-           display:flex; align-items:center; justify-content:center; text-align:center; padding:12px; background:#f6f6f6;}
+    body {
+      font-family: monospace;
+      background: radial-gradient(circle at center, #fff 0%, #f7f7f7 100%);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+    }
+    .tile {
+      width: 160px;
+      height: 100px;
+      border-radius: 10px;
+      background: hsl(calc(360 * var(--i) / 100), 80%, 75%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform .2s;
+    }
+    .tile:hover {
+      transform: scale(1.1) rotate(3deg);
+    }
   </style>
 </head>
 <body>
-  <!-- Laat 300 items genereren -->
   <script>
-    for(let i=1;i<=300;i++){
-      const d = document.createElement('div');
-      d.className = 'card';
-      d.innerHTML = `<strong>Item ${i}</strong><br>tekstplaatje ${Math.floor(Math.random()*9999)}`;
-      document.body.appendChild(d);
-    }
+    let i = 0;
+    const spawn = () => {
+      for (let j = 0; j < 100; j++) {
+        const d = document.createElement('div');
+        d.className = 'tile';
+        d.style.setProperty('--i', i % 100);
+        d.textContent = 'Plakaat ' + i;
+        document.body.appendChild(d);
+        i++;
+      }
+    };
+
+    // eerste lading
+    spawn();
+
+    // als je bijna beneden bent → spawn meer
+    window.addEventListener('scroll', () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+        spawn();
+      }
+    });
   </script>
 </body>
 </html>
