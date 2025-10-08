@@ -2,16 +2,18 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>∞ LaserCat Arena ∞</title>
+  <title>LaserCat Infinite Respawn 🐾</title>
   <style>
     body {
       font-family: monospace;
-      background: radial-gradient(circle at center, #fff 0%, #f7f7f7 100%);
+      background: radial-gradient(circle at center, #fff 0%, #f8f8f8 100%);
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
       padding: 20px;
+      overflow-y: scroll;
+      min-height: 100vh;
     }
     .tile {
       width: 160px;
@@ -23,7 +25,7 @@
       justify-content: center;
       font-weight: bold;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform .2s;
+      transition: transform .2s, opacity .3s;
     }
     .tile:hover {
       transform: scale(1.1) rotate(3deg);
@@ -32,27 +34,28 @@
 </head>
 <body>
   <script>
-    let i = 0;
-    const spawn = () => {
-      for (let j = 0; j < 100; j++) {
-        const d = document.createElement('div');
-        d.className = 'tile';
-        d.style.setProperty('--i', i % 100);
-        d.textContent = 'Plakaat ' + i;
-        document.body.appendChild(d);
-        i++;
-      }
+    let count = 0;
+    const spawnTile = () => {
+      const d = document.createElement('div');
+      d.className = 'tile';
+      d.style.setProperty('--i', count % 100);
+      d.textContent = 'Plakaat ' + count;
+      document.body.appendChild(d);
+      count++;
+      return d;
     };
 
-    // eerste lading
-    spawn();
+    // begin met 200 blokjes
+    for (let i = 0; i < 200; i++) spawnTile();
 
-    // als je bijna beneden bent → spawn meer
-    window.addEventListener('scroll', () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
-        spawn();
+    // watcher: check elke seconde of er iets despawned is
+    setInterval(() => {
+      const tiles = document.querySelectorAll('.tile');
+      if (tiles.length < 200) {
+        const toSpawn = 200 - tiles.length;
+        for (let i = 0; i < toSpawn; i++) spawnTile();
       }
-    });
+    }, 1000);
   </script>
 </body>
 </html>
