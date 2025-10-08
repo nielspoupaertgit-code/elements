@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>LaserCat Stress Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; display:flex; flex-wrap:wrap; gap:8px; padding:18px; }
+    .card { width:200px; height:120px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.12);
+           display:flex; align-items:center; justify-content:center; text-align:center; padding:12px; background:#f6f6f6;}
+  </style>
+</head>
+<body>
+  <!-- Laat 300 items genereren -->
+  <script>
+    for(let i=1;i<=300;i++){
+      const d = document.createElement('div');
+      d.className = 'card';
+      d.innerHTML = `<strong>Item ${i}</strong><br>tekstplaatje ${Math.floor(Math.random()*9999)}`;
+      document.body.appendChild(d);
+    }
+  </script>
+</body>
+</html>
